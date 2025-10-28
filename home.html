@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DTY WALLET - Home</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Raleway', sans-serif;
+      background: linear-gradient(160deg, #0b0f1a 0%, #111a2d 100%);
+      color: #eaeaea;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    header {
+      width: 100%;
+      padding: 20px 0;
+      background: rgba(255,255,255,0.03);
+      backdrop-filter: blur(8px);
+      text-align: center;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.2);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    header h1 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 2rem;
+      color: #00c3ff;
+      letter-spacing: 2px;
+      text-shadow: 0 0 10px rgba(0,195,255,0.6);
+    }
+
+    main {
+      width: 90%;
+      max-width: 600px;
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 25px;
+    }
+
+    .wallet-card {
+      width: 100%;
+      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      border-radius: 16px;
+      padding: 25px;
+      box-shadow: 0 6px 30px rgba(0,0,0,0.5);
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .wallet-card::before {
+      content:'';
+      position:absolute;
+      top:-40%;
+      left:-40%;
+      width:180%;
+      height:180%;
+      background: conic-gradient(from 0deg, rgba(0,195,255,0.1), transparent 60%, rgba(163,71,255,0.15));
+      animation: rotate 10s linear infinite;
+    }
+
+    @keyframes rotate { to { transform: rotate(360deg); } }
+
+    .wallet-card h2 {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 1.5rem;
+      color: #00c3ff;
+      z-index: 2;
+      position: relative;
+    }
+
+    .wallet-card .balance {
+      margin-top: 12px;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #6DFF2F;
+      text-shadow: 0 0 10px rgba(109,255,47,0.4);
+      z-index: 2;
+      position: relative;
+    }
+
+    .wallet-card .usd-value {
+      margin-top: 6px;
+      font-size: 1.3rem;
+      font-weight: 600;
+      color: #FFCC00;
+      text-shadow: 0 0 8px rgba(255,204,0,0.4);
+      z-index: 2;
+      position: relative;
+    }
+
+    .wallet-card .token-value {
+      margin-top: 8px;
+      font-size: 1rem;
+      color: #b0b0b0;
+      z-index: 2;
+      position: relative;
+    }
+
+    .btn-group {
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+      margin-top: 30px;
+    }
+
+    .btn {
+      background: linear-gradient(90deg, #13A2FF, #A347FF);
+      border: none;
+      padding: 12px 28px;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      letter-spacing: .5px;
+      transition: transform .2s ease, box-shadow .3s ease;
+      font-family: 'Raleway', sans-serif;
+      box-shadow: 0 0 15px rgba(19,162,255,0.3);
+    }
+
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 25px rgba(19,162,255,0.6);
+    }
+
+    .info-box {
+      width: 100%;
+      background: rgba(255,255,255,0.04);
+      border-radius: 12px;
+      padding: 15px 20px;
+      line-height: 1.6;
+      font-size: 1rem;
+      color: #ddd;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .info-box strong {
+      color: #00c3ff;
+    }
+
+    footer {
+      margin-top: auto;
+      padding: 20px;
+      font-size: .9rem;
+      color: rgba(255,255,255,0.4);
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>DTY WALLET</h1>
+  </header>
+
+  <main>
+    <div class="wallet-card">
+      <h2>Your Total Tokens</h2>
+      <div class="balance" id="totalTokens">0.0000 LETC</div>
+      <div class="usd-value" id="usdValue">$0.00 USD</div>
+      <div class="token-value">1 LEOTC = $8.15</div>
+    </div>
+
+    <div class="btn-group">
+      <button class="btn" onclick="goTo('wallet.html')">💳 WALLET WITHDRAW</button>
+      <button class="btn" onclick="goTo('bank.html')">🏦 Bank Transfer</button>
+    
+    </div>
+
+    <div class="info-box">
+      <p><strong>Welcome to DTY Wallet!</strong></p>
+      <p>Track your LETC token balance and USD value instantly.</p>
+    </div>
+  </main>
+
+  <footer>
+    © 2025 DTY Wallet. All Rights Reserved.
+  </footer>
+
+  <script>
+    const LETC_VALUE = 8.15; // USD value per LETC
+
+    if (!localStorage.getItem('leocoins')) {
+      localStorage.setItem('leocoins', 3500); // sample value
+    }
+    if (!localStorage.getItem('leobuyedtokens')) {
+      localStorage.setItem('leobuyedtokens', 4);
+    }
+
+    function calcTokens() {
+      const leocoins = parseInt(localStorage.getItem('leocoins')) || 0;
+      const leobuyedtokens = parseInt(localStorage.getItem('leobuyedtokens')) || 0;
+      const earnedTokens = leocoins / 70000;
+      const totalTokens = earnedTokens + leobuyedtokens;
+      const totalUSD = totalTokens * LETC_VALUE;
+
+      document.getElementById('totalTokens').textContent = totalTokens.toFixed(4) + ' LETC';
+      document.getElementById('usdValue').textContent = '$' + totalUSD.toFixed(2) + ' USD';
+    }
+
+    function goTo(page) {
+      window.location.href = page;
+    }
+
+    calcTokens();
+  </script>
+</body>
+</html>

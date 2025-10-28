@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>DTY WALLET - Bank Transfer</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Raleway:wght@400;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Raleway', sans-serif;
+      background: radial-gradient(circle at top, #0b0f1a, #121a2e 80%);
+      color: #f5f5f5;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* ===== HEADER ===== */
+    header {
+      width: 100%;
+      padding: 18px 0;
+      background: rgba(255,255,255,0.05);
+      backdrop-filter: blur(8px);
+      text-align: center;
+      box-shadow: 0 2px 20px rgba(0,0,0,0.3);
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    header h1 {
+      font-family: 'Orbitron', sans-serif;
+      color: #00c3ff;
+      font-size: 1.5rem;
+      letter-spacing: 1px;
+    }
+    .back-arrow {
+      position: absolute;
+      left: 20px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 1.5rem;
+      color: #fff;
+      cursor: pointer;
+      transition: color .3s ease;
+    }
+    .back-arrow:hover { color: #FFCC00; }
+
+    /* ===== MAIN CONTENT ===== */
+    main {
+      width: 90%;
+      max-width: 600px;
+      margin-top: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .title-box {
+      text-align: center;
+    }
+    .title-box h2 {
+      font-family: 'Orbitron', sans-serif;
+      color: #00c3ff;
+      margin-bottom: 8px;
+    }
+    .title-box p {
+      color: #aaa;
+      font-size: 0.95rem;
+    }
+
+    /* ===== FORM FIELDS ===== */
+    label {
+      align-self: flex-start;
+      color: #ccc;
+      font-weight: 600;
+      margin-top: 5px;
+      letter-spacing: .5px;
+    }
+    input {
+      width: 100%;
+      padding: 12px;
+      margin-top: 6px;
+      border-radius: 8px;
+      border: none;
+      outline: none;
+      background: rgba(255,255,255,0.08);
+      color: #fff;
+      font-size: 1rem;
+      transition: background .3s ease;
+    }
+    input:focus {
+      background: rgba(255,255,255,0.12);
+    }
+
+    /* ===== BUTTON ===== */
+    .btn {
+      background: linear-gradient(90deg, #13A2FF, #A347FF);
+      border: none;
+      padding: 14px 40px;
+      color: white;
+      font-weight: bold;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: transform .2s ease, box-shadow .3s ease;
+      font-family: 'Raleway', sans-serif;
+      box-shadow: 0 0 15px rgba(19,162,255,0.3);
+      margin-top: 20px;
+      font-size: 1rem;
+    }
+    .btn:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 0 25px rgba(19,162,255,0.6);
+    }
+
+    /* ===== MODAL ===== */
+    .modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(6px);
+      justify-content: center;
+      align-items: center;
+      z-index: 999;
+    }
+    .modal-content {
+      background: linear-gradient(160deg, #141b2e, #1a2340);
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.5);
+      text-align: center;
+      animation: pop 0.4s ease;
+    }
+    @keyframes pop {
+      from { transform: scale(0.8); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+    .modal-content h3 {
+      font-family: 'Orbitron', sans-serif;
+      color: #FF5555;
+      margin-bottom: 10px;
+    }
+    .modal-content p {
+      color: #eee;
+      font-size: 1rem;
+      margin-bottom: 8px;
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <span class="back-arrow" onclick="goBack()">←</span>
+    <h1>Bank Transfer</h1>
+  </header>
+
+  <main>
+    <div class="title-box">
+      <h2>Transfer Details</h2>
+      <p>Fill out the information below to withdraw funds via bank transfer.</p>
+    </div>
+
+    <label for="fullname">Full Name</label>
+    <input type="text" id="fullname" placeholder="Enter your full name" />
+
+    <label for="country">Country</label>
+    <input type="text" id="country" placeholder="Type your country name" />
+
+    <label for="phone">Phone Number</label>
+    <input type="tel" id="phone" placeholder="Enter your phone number" />
+
+    <label for="bankname">Bank Name & Address</label>
+    <input type="text" id="bankname" placeholder="Enter bank name and address" />
+
+    <label for="account">Recipient's Account Number or IBAN</label>
+    <input type="text" id="account" placeholder="Enter account number or IBAN" />
+
+    <label for="swift">SWIFT / BIC Code</label>
+    <input type="text" id="swift" placeholder="Enter SWIFT or BIC code" />
+
+    <label for="amount">Payment Amount & Currency</label>
+    <input type="text" id="amount" placeholder="e.g. 250 USD" />
+
+    <button class="btn" onclick="withdraw()">Withdraw</button>
+  </main>
+
+  <!-- ===== MODAL ===== -->
+  <div class="modal" id="modal">
+    <div class="modal-content">
+      <h3> PROCESSING...</h3>
+      
+    </div>
+  </div>
+
+  <script>
+    function goBack() {
+      window.location.href = 'home.html';
+    }
+
+    function withdraw() {
+      const modal = document.getElementById('modal');
+      modal.style.display = 'flex';
+      setTimeout(() => {
+        window.location.href = 'withdrawal.html';
+      }, 3000);
+    }
+  </script>
+</body>
+</html>
